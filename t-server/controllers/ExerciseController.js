@@ -1,12 +1,6 @@
 const ExerciseService = require("../services/ExerciseService");
 
 exports.getExercises = async (_req, res) => {
-  console.log(1111111111);
-  console.log(1111111111);
-  console.log(1111111111);
-  console.log(1111111111);
-  console.log(1111111111);
-
   try {
     const exercises = await ExerciseService.getExercises();
     res.json({ data: exercises, status: "success" });

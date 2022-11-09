@@ -1,15 +1,17 @@
 version: "2"
 services:
-  server:
+  t-server:
     container_name: t-server
     restart: always
     build: ./t-server
     ports:
       - "5500:8080"
     depends_on:
-      - mongodb
+      - mongo
+    volumes:
+      - ./t-server:/usr/src/app
 
-  mongodb:
+  mongo:
     container_name: mongo
     image: mongo
     ports:
@@ -21,3 +23,5 @@ services:
     build: ./t-ui
     ports:
       - "4000:3000"
+    volumes:
+      - ./t-ui:/usr/src/app

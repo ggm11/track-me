@@ -5,14 +5,10 @@ const options = {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 };
-const logConnection = (error) => {
-  if (error) {
-    console.log(error);
-  } else {
-    console.log("Connected to MongoDB");
-  }
-};
 
-mongoose.connect(uri, options, logConnection);
+mongoose
+  .connect(uri, options)
+  .then(() => console.log("Connected to MongoDB"))
+  .catch((error) => console.log(error));
 
 module.exports = mongoose;

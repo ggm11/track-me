@@ -1,10 +1,11 @@
-import { useEffect, useState } from "react";
+import { ChangeEvent, useEffect, useState } from "react";
 
 function App() {
   const [message, setMessage] = useState("");
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
   const url = "http://localhost:5500/api/exercises";
+  const [name, setName] = useState("");
 
   useEffect(() => {
     fetch(url, {
@@ -29,19 +30,26 @@ function App() {
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ name: "musc1" }),
+      body: JSON.stringify({ name }),
     })
       .then((res) => res.json())
       .then((json) => console.log(json));
   };
 
+  const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
+    setName(event.target.value);
+  };
+
   return (
     <>
       <h1>EXERCISES</h1>
-      <button onClick={handleClick}>POST BUTTON</button>
       <div>{error && "There was an error"}</div>
       <div>{loading && "LOADING"}</div>
       <div>{!loading && message}</div>
+      <input type="text" onChange={handleChange} />
+      <button disabled={name.length < 4} onClick={handleClick}>
+        POST BUTTON
+      </button>
     </>
   );
 }

@@ -1,12 +1,15 @@
 const express = require("express");
 const cors = require("cors");
-const exerciseRoutes = require("./routes/ExerciseRoutes");
+require("dotenv").config();
 require("./database/db.config");
+const exerciseRoutes = require("./routes/ExerciseRoutes");
+const userRoutes = require("./routes/UserRoutes");
 
 const app = express();
 app.use(cors());
 app.use(express.json());
 
+app.use("/api/users", userRoutes);
 app.use("/api/exercises", exerciseRoutes);
 
 const PORT = 8080;

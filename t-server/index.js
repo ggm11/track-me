@@ -4,11 +4,13 @@ require("dotenv").config();
 require("./database/db.config");
 const exerciseRoutes = require("./routes/ExerciseRoutes");
 const userRoutes = require("./routes/UserRoutes");
+const authRoutes = require("./routes/AuthRoutes");
 
 const app = express();
 app.use(cors());
 app.use(express.json());
 
+app.use("/api/auth", authRoutes);
 app.use("/api/users", userRoutes);
 app.use("/api/exercises", exerciseRoutes);
 

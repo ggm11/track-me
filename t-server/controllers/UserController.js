@@ -1,7 +1,6 @@
 const { validationResult } = require("express-validator");
 const bcryptjs = require("bcryptjs");
-const UserService = require("../services/UserService");
-const UserModel = require("../models/User");
+const { createUser, findUser } = require("../services/UserService");
 
 exports.postUser = async (req, res) => {
   const errors = validationResult(req);
@@ -11,7 +10,7 @@ exports.postUser = async (req, res) => {
   }
   try {
     const { email, password: pass, username } = req.body;
-    const user = await UserModel.findOne({ email });
+    const user = await findUser(email);
 
     if (user) {
       return res.status(400).json({ msg: "User already exists" });
@@ -26,7 +25,7 @@ exports.postUser = async (req, res) => {
       username,
     };
 
-    const createdUser = await UserService.createUser(newUser);
+    const createdUser = await createUser(newUser);
     res.json({ data: createdUser, status: "success" });
   } catch (err) {
     res.status(500).json({ error: err.message });

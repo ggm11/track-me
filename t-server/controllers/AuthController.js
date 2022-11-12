@@ -2,6 +2,7 @@ const User = require("../models/User");
 const bcryptjs = require("bcryptjs");
 const { validationResult } = require("express-validator");
 const jwt = require("jsonwebtoken");
+const { findUser } = require("../services/AuthService");
 
 exports.userAuthentication = async (req, res) => {
   const errors = validationResult(req);
@@ -12,12 +13,12 @@ exports.userAuthentication = async (req, res) => {
 
   const { email, password } = req.body;
   try {
-    let user = await User.findOne({ email });
+    const user = await findUser(email);
     if (!user) {
       return res.status(400).json({ msg: `The user doesn't exists` });
     }
-    const correctPassword = await bcryptjs.compare(password, user.password);
-    if (!correctPassword) {
+    const isCorrectPassword = await bcryptjs.compare(password, user.password);
+    if (!isCorrectPassword) {
       return res.status(400).json({ msg: "Incorrect password" });
     }
     const payload = {

@@ -5,17 +5,16 @@ require("./database/db.config");
 const exerciseRoutes = require("./routes/ExerciseRoutes");
 const userRoutes = require("./routes/UserRoutes");
 const authRoutes = require("./routes/AuthRoutes");
+const { api, AUTH, USERS, EXERCISES } = require("./constants/api");
+const { PORT, HOST } = require("./constants/server");
 
 const app = express();
 app.use(cors());
 app.use(express.json());
 
-app.use("/api/auth", authRoutes);
-app.use("/api/users", userRoutes);
-app.use("/api/exercises", exerciseRoutes);
-
-const PORT = 8080;
-const HOST = "0.0.0.0";
+app.use(`${api}${AUTH}`, authRoutes);
+app.use(`${api}${USERS}`, userRoutes);
+app.use(`${api}${EXERCISES}`, exerciseRoutes);
 
 const log = () => console.log(`Server is running on port ${PORT}`);
 

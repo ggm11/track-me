@@ -10,7 +10,7 @@ exports.postUser = async (req, res) => {
     return res.status(400).json({ errors: errors.array() });
   }
   try {
-    const { email, password: pass, name } = req.body;
+    const { email, password: pass, username } = req.body;
     const user = await UserModel.findOne({ email });
 
     if (user) {
@@ -23,7 +23,7 @@ exports.postUser = async (req, res) => {
     const newUser = {
       email,
       password,
-      name,
+      username,
     };
 
     const createdUser = await UserService.createUser(newUser);

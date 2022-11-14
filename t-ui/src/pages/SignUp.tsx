@@ -1,32 +1,20 @@
-import { useState } from "react";
-import { baseurl, USERS } from "../constants/api";
+import { useAuth } from "../hooks/useAuth";
 
 function SignUp() {
-  const [username, setUsername] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const LENTGTH = 6;
-  const submitDisabled = !Boolean(
-    username.length > LENTGTH &&
-      password.length > LENTGTH &&
-      email.length > LENTGTH
-  );
+  const {
+    signUpUser,
+    setUsername,
+    setEmail,
+    setPassword,
+    submitSignUpDisabled,
+  } = useAuth();
 
   const handleSubmit = async (event: any) => {
     event.preventDefault();
 
     try {
-      const resource = `${baseurl}${USERS}`;
-
-      const response = await fetch(resource, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ username, email, password }),
-      });
-      const json = await response.json();
-      console.log(json);
+      const response = await signUpUser();
+      console.log(response);
     } catch (error) {
       console.log(error);
     }
@@ -54,7 +42,7 @@ function SignUp() {
           onChange={(event) => setPassword(event.target.value)}
           placeholder="password"
         />
-        <input type="submit" value="Submit" disabled={submitDisabled} />
+        <input type="submit" value="Submit" disabled={submitSignUpDisabled} />
       </form>
     </>
   );
